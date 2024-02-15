@@ -1499,6 +1499,7 @@ def send_documentation():
 '''
 Uses Flask's send_from_directory function to serve a file named visualizer_doc.html from the specified directory.
 The directory path is constructed using path2root, likely a variable defined elsewhere, and includes a documentation subfolder within the visualizer directory.
+'''
 
 
 @visualizer_app.server.route('/images/<path:filename>')
