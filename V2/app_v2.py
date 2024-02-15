@@ -1489,18 +1489,26 @@ def export_network():
         - This could mean:
             - serialize_network_new_format always returns a successful result.
             - The success check is handled elsewhere (not shown in the provided snippet).
-            - There might be a potential risk of sending an invalid file if the serialization fails.
+            -  There might be a potential risk of sending an invalid file if the serialization fails.
 '''
 
 
 @visualizer_app.server.route('/userDocumentation')
 def send_documentation():
     return flask.send_from_directory('{}/visualizer/documentation'.format(path2root), 'visualizer_doc.html')
+'''
+Uses Flask's send_from_directory function to serve a file named visualizer_doc.html from the specified directory.
+The directory path is constructed using path2root, likely a variable defined elsewhere, and includes a documentation subfolder within the visualizer directory.
 
 
 @visualizer_app.server.route('/images/<path:filename>')
 def get_images(filename):
     return flask.send_from_directory('{}/visualizer/documentation/images'.format(path2root), filename)
+'''
+It accepts a filename parameter using <path:filename>. This allows serving any image file whose name is provided in the URL.
+It constructs the file path using path2root (likely a variable defined elsewhere) and includes the documentation/images subfolder within the visualizer directory.
+It uses Flask's send_from_directory function to deliver the specified image file.
+'''
 
 
 
@@ -1530,3 +1538,31 @@ def get_interaction_tables(active_network):
         else:
             label_interaction_table.append(dash_formatter.get_label_table_row(info, False))
     return node_interaction_table, edge_interaction_table, label_interaction_table
+'''
+Inputs:
+- active_network: An object representing the currently active network in your visualization.
+
+Outputs:
+- node_interaction_table: A table listing possible node interactions.
+- edge_interaction_table: A table listing possible edge interactions.
+- label_interaction_table: A table listing interactions related to node labels.
+
+Functionality:
+- Initializes empty tables: The function starts by creating empty tables using methods from the dash_formatter module.
+- Populates node and edge tables:
+    - It iterates through active node and edge types from the active_network object.
+    - For each type, it adds a row to the corresponding table using dash_formatter methods.
+- Network information:
+    - Retrieves network information using active_network.get_active_network_info().
+    - Formats the information using dash_formatter.dash_network_info.
+- Node information:
+    - Determines the node label field from active_network.
+    - Extracts unique information keys from all nodes' data.
+    - Builds a list of unique information fields (node_infos).
+- Label interaction table:
+    - Creates an empty label interaction table with dash_formatter.
+    - Iterates through the unique information fields.
+    - For each field:
+        - If it's the label field, adds a row with "is label" flag using dash_formatter.
+        - Otherwise, adds a row with "is not label" flag using dash_formatter.
+'''
